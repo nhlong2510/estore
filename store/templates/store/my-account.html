@@ -1,0 +1,166 @@
+{% extends 'store/_Master.html' %} 
+{% load static %} 
+{% block title_tab %} E Store | Tài khoản của tôi 
+{% endblock %} 
+{% load humanize %} 
+{% block main_content %}
+<!-- Breadcrumb Start -->
+<div class="breadcrumb-wrap">
+    <div class="container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'store:index' %}">Trang chủ</a></li>
+            <li class="breadcrumb-item active">Tài khoản của tôi</li>
+        </ul>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- My Account Start -->
+<div class="my-account">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="fa fa-user"></i>Tài khoản của tôi</a>
+                    <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i>Đơn hàng</a>
+                    <a class="nav-link" href="{% url 'customers:logout' %}"><i class="fa fa-sign-out-alt"></i>Đăng xuất</a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="orders-tab" role="tabpanel" aria-labelledby="orders-nav">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th>Tổng thành tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td># {{ order.id }}</td>
+                                        <td>{{ order.created }}</td>
+                                        <td>{{ order.total|floatformat:0|intcomma }} đ</td>
+                                        <td>Approved</td>
+                                        <td><button class="btn" data-toggle="modal" data-target="#o{{ order.id }}">Chi tiết</button></td>
+                                    </tr>
+                                    <!-- Modal -->
+                                    {% comment %} <div class="modal fade" id="o{{ order.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Đơn hàng # {{ order.id }}</h5>
+                                                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table table-hover table-borderless">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Hình ảnh</th>
+                                                                <th scope="col">Tên sản phẩm</th>
+                                                                <th scope="col" style="text-align: center;">Số lượng</th>
+                                                                <th scope="col" style="text-align: right;">Đơn giá</th>
+                                                                <th scope="col" style="text-align: right;">Thành tiền</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in items %}
+                                                            <tr>
+                                                                <th scope="row">{{ i.id }}</th>
+                                                                <td><img src="{{ i.product.image.url }}" alt="{{ i.product.name }}" style="width: 70px;"></td>
+                                                                <td style="width: 30%;">{{ i.product.name }}</td>
+                                                                <td style="text-align: center;">{{ i.quantity }}</td>
+                                                                <td style="text-align: right;">{{ i.price|floatformat:0|intcomma }} đ</td>
+                                                                <td style="text-align: right;">{{ i.order.total|floatformat:0|intcomma }} đ</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                            <tr style="color: red;">
+                                                                <td colspan="4"></td>
+                                                                <td style="text-align: right;">
+                                                                    <h5>
+                                                                        <strong>Tổng Tiền</strong>
+                                                                    </h5>
+                                                                </td>
+                                                                <td style="text-align: right;">
+                                                                    <h5>
+                                                                        <strong></strong>
+                                                                    </h5>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> {% endcomment %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show active" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
+                        <h4>Hồ sơ của tôi</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ result|safe }}
+                            </div>
+                            <form class="row" method="post">
+                                {% csrf_token %}
+                                <div class="col-md-6">
+                                    <input class="form-control" name="ten" type="text" placeholder="{{ request.session.s_customer.ten }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="form-control" name="ho" type="text" placeholder="{{ request.session.s_customer.ho }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="form-control" name="dien_thoai" type="text" placeholder="{{ request.session.s_customer.dien_thoai }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="email" placeholder="{{ request.session.s_customer.email }}" readonly>
+                                </div>
+                                <div class="col-md-12">
+                                    <input class="form-control" name="dia_chi" type="text" placeholder="{{ request.session.s_customer.dia_chi }}">
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" name="btnUpdate" class="btn update_btn" value="Cập nhật">Cập nhật tài khoản</button>
+                                    <br><br>
+                                </div>
+                            </form>
+                        </div>
+                        <h4>Đổi mật khẩu</h4>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {{ result_pass|safe }}
+                            </div>
+                            <form action="" class="row" method="post">
+                                {% csrf_token %}
+                                <div class="col-md-12">
+                                    {{ form.mat_khau_hien_tai }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.mat_khau }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.xac_nhan_mat_khau }}
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn" type="submit" name="btnChangePass" value="Đổi mật khẩu">Đổi mật khẩu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- My Account End -->
+
+
+{% endblock %}

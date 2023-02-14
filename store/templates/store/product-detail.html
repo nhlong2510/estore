@@ -1,0 +1,182 @@
+{% extends 'store/_Master.html' %}
+{% load static %}
+{% block title_tab %}
+E Store | {{ product.name }}
+{% endblock %}
+{% load humanize %}
+{% block main_content %}
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'store:index' %}">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'store:product-list' sub_cat_name.pk %}">{{ sub_cat_name.name }}</a></li>
+                    <li class="breadcrumb-item active">{{ product.name }}</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Product Detail Start -->
+        <div class="product-detail">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="product-detail-top">
+                            <div class="row align-items-center">
+                                <div class="col-md-5">
+                                    <div class="product-slider-single normal-slider">
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="product-content">
+                                        <div class="title"><h2>{{ product.name }}</h2></div>
+                                        <div class="price">
+                                            <h4>Đơn giá:</h4>
+                                            <p>{{ product.price|floatformat:'0'|intcomma }}<span>đ</span></p>
+                                        </div>
+                                        <div class="quantity">
+                                            <h4>Quantity:</h4>
+                                            <div class="qty">
+                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
+                                                <input type="text" value="1">
+                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                        <form method="post" action="{% url 'cart:buy_now' product.pk %}">
+                                            {% csrf_token %}
+                                        <div class="product-price">
+                                            <button class="btn" type="submit" >
+                                                <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                            </button>
+                                        </div>
+                                        </form>
+                                        <br>
+                                        <div>
+                                            <ul>
+                                                {% for product in list_asc_products %}
+                                                    <li><a href="{% url 'store:product-detail' product.pk %}">{{ product.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row product-detail-bottom">
+                            <div class="col-lg-12">
+                                <ul class="nav nav-pills nav-justified">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="pill" href="{% url 'store:product-detail' product.pk %}">Mô tả chi tiết</a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="description" class="container tab-pane active">
+                                        <h4>Mô tả sản phẩm</h4>
+                                        <p>
+                                            {{ product.content|safe }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="product">
+                            <div class="section-header">
+                                <h1>Related Products</h1>
+                            </div>
+
+                            <div class="row align-items-center product-slider product-slider-3">
+                                {% for pro in same_products %}
+                                <div class="col-lg-3">
+                                    <div class="product-item">
+                                        <div class="product-title">
+                                            <a href="#">{{ pro.name }}</a>
+                                        </div>
+                                        <div class="product-image">
+                                            <a href="{% url 'store:product-detail' pro.pk %}">
+                                                <img src="{{ pro.image.url }}" alt="{{ pro.name }}">
+                                            </a>
+                                        </div>
+                                        <form method="post" action="{% url 'cart:buy_now' pro.pk %}">
+                                            {% csrf_token %}
+                                        <div class="product-price">
+                                            <h3>{{ pro.price|floatformat:'0'|intcomma }}<span>đ</span></h3>
+                                            <input type="hidden" name="quantity" value="1"/>
+                                            <button class="btn" type="submit" >
+                                                <i class="fa fa-shopping-cart"></i>Mua ngay
+                                            </button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Side Bar Start -->
+                    <div class="col-lg-4 sidebar">
+                        <div class="sidebar-widget category">
+                            <h2 class="title">Danh mục sản phẩm</h2>
+                            <nav class="navbar bg-light">
+                                <ul class="navbar-nav">
+                                    {% for sub in sub_cats %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'store:product-list' sub.pk %}"><i class="fa fa-angle-double-right"></i>{{ sub.name }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="sidebar-widget widget-slider">
+                            <div class="sidebar-slider normal-slider">
+                                {% for product in products %}
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="{% url 'store:product-detail' product.pk %}">{{ product.name }}</a>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="{% url 'store:product-detail' product.pk %}">
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        </a>
+                                    </div>
+                                    <form method="post" action="{% url 'cart:buy_now' product.pk %}">
+                                        {% csrf_token %}
+                                    <div class="product-price">
+                                        <h3>{{ product.price|floatformat:'0'|intcomma }}<span>đ</span></h3>
+                                        <input type="hidden" name="quantity" value="1"/>
+                                        <button class="btn" type="submit" >
+                                            <i class="fa fa-shopping-cart"></i>Mua ngay
+                                        </button>
+                                    </div>
+                                    </form>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Side Bar End -->
+                </div>
+            </div>
+        </div>
+        <!-- Product Detail End -->
+        
+        <!-- Brand Start -->
+        <div class="brand">
+            <div class="container-fluid">
+                <div class="brand-slider">
+                    <div class="brand-item"><img src="{% static 'store/brands/lg.png' %}" alt=""></div>
+                    <div class="brand-item"><img src="{% static 'store/brands/panasonic.png' %}" alt=""></div>
+                    <div class="brand-item"><img src="{% static 'store/brands/philips.png' %}" alt=""></div>
+                    <div class="brand-item"><img src="{% static 'store/brands/samsung.png' %}" alt=""></div>
+                    <div class="brand-item"><img src="{% static 'store/brands/sharp.png' %}" alt=""></div>
+                    <div class="brand-item"><img src="{% static 'store/brands/sunhouse.png' %}" alt=""></div>
+                </div>
+            </div>
+        </div>
+        <!-- Brand End -->
+{% endblock %}        

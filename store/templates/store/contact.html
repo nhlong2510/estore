@@ -1,0 +1,101 @@
+{% extends 'store/_Master.html' %}
+{% block title_tab %}
+E Store | Liên hệ
+{% endblock %}
+{% load static %}
+{% block main_content %}        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Contact</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Contact Start -->
+        <div class="contact">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="contact-info">
+                            <h2>Our Office</h2>
+                            <h3><i class="fa fa-map-marker"></i>123 Office, Los Angeles, CA, USA</h3>
+                            <h3><i class="fa fa-envelope"></i>office@example.com</h3>
+                            <h3><i class="fa fa-phone"></i>+123-456-7890</h3>
+                            <div class="social">
+                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                <a href=""><i class="fab fa-instagram"></i></a>
+                                <a href=""><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="contact-info">
+                            <h2>Our Store</h2>
+                            <h3><i class="fa fa-map-marker"></i>123 Store, Los Angeles, CA, USA</h3>
+                            <h3><i class="fa fa-envelope"></i>store@example.com</h3>
+                            <h3><i class="fa fa-phone"></i>+123-456-7890</h3>
+                            <div class="social">
+                                <a href=""><i class="fab fa-twitter"></i></a>
+                                <a href=""><i class="fab fa-facebook-f"></i></a>
+                                <a href=""><i class="fab fa-linkedin-in"></i></a>
+                                <a href=""><i class="fab fa-instagram"></i></a>
+                                <a href=""><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="contact-form" >
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ result|safe }}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form.name }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {{ form.subject }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.message }}
+                                </div>
+                                <div><button class="btn contact_btn" name="btnSendMessage" value="Send Message" type="submit">Send Message</button></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="contact-map">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6433493957456!2d106.69723291533415!3d10.761945862402337!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f5891531789%3A0x7060deee40832b98!2sRivergate%20Apartments%20District%204%20by%20Novaland!5e0!3m2!1sen!2s!4v1647865826021!5m2!1sen!2s" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact End -->
+        
+
+        
+        <!-- Back to Top -->
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/slick/slick.min.js"></script>
+        
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+    </body>
+</html>
+{% endblock %}

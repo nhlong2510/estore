@@ -1,0 +1,82 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Report</title>
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap" rel="stylesheet">
+
+    <!-- CSS Libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+
+    <!-- Template Stylesheet -->
+
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <div class="text-center">
+            <h1>THỐNG KÊ SỐ SẢN PHẨM TRONG DANH MỤC HÀNG HÓA</h1>
+        </div>
+        <div class="text-center">
+            <h4>{{ today }}</h4>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Mã danh mục</th>
+                    <th>Tên danh mục hàng hóa</th>
+                    <th>Số sản phẩm</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <th>{{ product.subcategory }}</th>
+                    <th>{{ product.subcategory__name }}</th>
+                    <th>{{ product.total }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <canvas id="bar-chart" width="800" height="450"></canvas>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script>
+        new Chart(document.getElementById("bar-chart"), {
+            type: 'bar',
+            data: {
+                labels: {{ list_name_of_subcategory|safe }},
+                datasets: [{
+                    label: "Sản phẩm (cái)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                    data: {{ list_quantity_of_product|safe }}
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Thống kê số sản phẩm trong danh mục hàng hóa'
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

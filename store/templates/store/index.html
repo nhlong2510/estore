@@ -1,0 +1,214 @@
+{% extends 'store/_Master.html' %}
+{% load static %}
+{% block title_tab %}
+E Store | Trang chủ
+{% endblock %}
+{% load humanize %}
+{% block main_content %}
+<!-- Main Slider Start -->
+<div class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="header-slider normal-slider">
+                    <div class="header-slider-item">
+                        <img src="{% static 'store/sliders/slider-1.png' %}" alt="Slider Image 1" />
+                    </div>
+                    <div class="header-slider-item">
+                        <img src="{% static 'store/sliders/slider-2.png' %}" alt="Slider Image 2" />
+                    </div>
+                    <div class="header-slider-item">
+                        <img src="{% static 'store/sliders/slider-3.png' %}" alt="Slider Image 3" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="header-img">
+                    <div class="img-item">
+                        <img src="{% static 'store/images/dung-cu-nha-bep.png' %}" />
+                        <a class="img-text" href="">
+                            <p>Some text goes here that describes the image</p>
+                        </a>
+                    </div>
+                    <div class="img-item">
+                        <img src="{% static 'store/images/thiet-bi-gia-dinh.png' %}" />
+                        <a class="img-text" href="">
+                            <p>Some text goes here that describes the image</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main Slider End -->      
+
+<!-- Brand Start -->
+<div class="brand">
+    <div class="container-fluid">
+        <div class="brand-slider">
+            <div class="brand-item"><img src="{% static 'store/brands/lg.png' %}" alt=""></div>
+            <div class="brand-item"><img src="{% static 'store/brands/panasonic.png' %}" alt=""></div>
+            <div class="brand-item"><img src="{% static 'store/brands/philips.png' %}" alt=""></div>
+            <div class="brand-item"><img src="{% static 'store/brands/samsung.png' %}" alt=""></div>
+            <div class="brand-item"><img src="{% static 'store/brands/sharp.png' %}" alt=""></div>
+            <div class="brand-item"><img src="{% static 'store/brands/sunhouse.png' %}" alt=""></div>
+        </div>
+    </div>
+</div>
+<!-- Brand End -->      
+
+<!-- Feature Start-->
+<div class="feature">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-3 col-md-6 feature-col">
+                <div class="feature-content">
+                    <i class="fab fa-cc-mastercard"></i>
+                    <h2>Bảo mật thanh toán</h2>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 feature-col">
+                <div class="feature-content">
+                    <i class="fa fa-truck"></i>
+                    <h2>Giao hàng toàn quốc</h2>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 feature-col">
+                <div class="feature-content">
+                    <i class="fa fa-sync-alt"></i>
+                    <h2>Đổi trả trong 7 ngày</h2>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 feature-col">
+                <div class="feature-content">
+                    <i class="fa fa-comments"></i>
+                    <h2>Tư vấn 24/7</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Feature End-->      
+
+
+
+<!-- Call to Action Start -->
+<div class="call-to-action">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1>Gọi cho chúng tôi</h1>
+            </div>
+            <div class="col-md-6">
+                <a href="tel:02838351056">(028)38.351.056 - Ext: 179</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Call to Action End -->       
+
+<!-- Featured Product Start -->
+<div class="featured-product product">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h1>Đồ dùng nhà bếp</h1>
+        </div>
+        <div class="row align-items-center product-slider product-slider-4">
+            {% for product in ddnb_products %}
+            <div class="col-lg-3">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="{% url 'store:product-detail' product.pk %}">{{ product.name }}</a>
+                    </div>
+                    <div class="product-image">
+                        <a href="{% url 'store:product-detail' product.pk %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </a>
+                    </div>
+                    <form method="post" action="{% url 'cart:buy_now' product.pk %}">
+                        {% csrf_token %}
+                    <div class="product-price">
+                        <h3>{{ product.price|floatformat:'0'|intcomma }}<span>đ</span></h3>
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button class="btn" type="submit" >
+                            <i class="fa fa-shopping-cart"></i>Mua ngay
+                        </button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Featured Product End -->       
+
+<!-- Newsletter Start -->
+<div class="newsletter">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Đăng ký nhận thông tin</h1>
+            </div>
+            <div class="col-md-6">
+                <div class="form">
+                    <input type="email" value="Nhập email">
+                    <button>Gửi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Newsletter End -->        
+
+<!-- Recent Product Start -->
+<div class="recent-product product">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h1>Thiết bị gia đình</h1>
+        </div>
+        <div class="row align-items-center product-slider product-slider-4">
+            {% for product in tbgd_products %}
+            <div class="col-lg-3">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="{% url 'store:product-detail' product.pk %}">{{ product.name }}</a>
+                        <!-- <div class="ratting">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div> -->
+                    </div>
+                    <div class="product-image">
+                        <a href="{% url 'store:product-detail' product.pk %}">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        </a>
+                        <!-- <div class="product-action">
+                            <a href="#"><i class="fa fa-cart-plus"></i></a>
+                            <a href="#"><i class="fa fa-heart"></i></a>
+                            <a href="#"><i class="fa fa-search"></i></a>
+                        </div> -->
+                    </div>
+                    <form method="post" action="{% url 'cart:buy_now' product.pk %}">
+                        {% csrf_token %}
+                    <div class="product-price">
+                        <h3>{{ product.price|floatformat:'0'|intcomma }}<span>đ</span></h3>
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button class="btn" type="submit" >
+                            <i class="fa fa-shopping-cart"></i>Mua ngay
+                        </button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Recent Product End -->
+
+
+{% endblock %}
