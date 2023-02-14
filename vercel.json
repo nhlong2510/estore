@@ -1,13 +1,13 @@
 {
     "builds": [{
-        "src": "Estore/wsgi.py",
+        "src": "EStore/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "Estore/wsgi.py"
+            "dest": "EStore/wsgi.py"
         }
     ]
 }
