@@ -11,6 +11,4 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('user/', views.demo_user, name='user'),
     path('logout-user/', views.logout_user, name='logout_user'),
-    path('product_service/', views.product_service, name='product_service'),
-    path('product_service/<int:pk>/', views.product_service_detail, name='product_service_detail'),
 ]

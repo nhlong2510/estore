@@ -204,15 +204,3 @@ def logout_user(request):
     logout(request)
     return redirect('store:user')
 
-
-def product_service(request):
-    product = Product.objects.all().order_by('-public_day')
-    result_list = list(product.values('name', 'price', 'image', 'public_day'))
-    return JsonResponse(result_list, safe=False)
-
-
-def product_service_detail(request, pk):
-    product = Product.objects.filter(id=pk)
-    result_list = list(product.values())[0]
-    return JsonResponse(result_list, safe=False)
-
