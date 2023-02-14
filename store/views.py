@@ -5,13 +5,7 @@ from store.models import Contact, Product, SubCategory
 from django.core.paginator import Paginator
 from cart.cart import Cart
 from django.contrib.auth import authenticate, login, logout
-from rest_framework import viewsets, permissions
-from store.serializers import ProductSerializer
 from urllib.parse import urlencode
-import pandas as pd
-import re
-import os
-from django.conf import settings
 
 
 # Create your views here.
@@ -72,25 +66,12 @@ def productdetail(request, pk):
     sub_cats = SubCategory.objects.all()
     sub_cat_name = SubCategory.objects.get(id__in=sub_category_id)
 
-    rules = pd.read_csv(os.path.join(settings.MEDIA_ROOT, 'analysis/rules.csv'), squeeze=True, index_col=0)
-    lst = rules.values.tolist()
-
-    list_rules = []
-    for item in lst:
-        if str(pk) in re.findall('\d+[, \d+]*', item[0])[0].split(','):
-            list_rules = re.findall('\d+[, \d+]*', item[1])[0].split(',')
-    list_asc_products = []
-    for i in list_rules:
-        list_asc_products.append(Product.objects.get(pk=int(i)))
-
-    
     return render(request, 'store/product-detail.html', {
         'product': product,
         'sub_cats': sub_cats,
         'same_products': same_products,
         'sub_cat_name': sub_cat_name,
         'cart': cart,
-        'list_asc_products': list_asc_products,
     })
 
 
@@ -235,9 +216,3 @@ def product_service_detail(request, pk):
     result_list = list(product.values())[0]
     return JsonResponse(result_list, safe=False)
 
-
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.order_by('-public_day')
-    serializer_class = ProductSerializer
-    # permission_classes = [permissions.IsAdminUser] # Đọc / Ghi
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly] # Chỉ đọc

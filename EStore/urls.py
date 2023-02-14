@@ -17,12 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from rest_framework import routers
-from store import views
 
-
-router = routers.DefaultRouter()
-router.register(r'products', views.ProductViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,11 +25,6 @@ urlpatterns = [
     path('', include('customers.urls')),
     path('', include('cart.urls')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
-    path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('', include('dashboard.urls')),
-    path('', include('storereport.urls')),
-    path('', include('analysis.urls'))
 ]
 urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
