@@ -27,9 +27,7 @@ SECRET_KEY = 'django-insecure-u^y@c3g!99kg46ipp4v!(=+5v1&oxlmfotta6k0!z@qxjbmxns
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', 'estore-deployment.vercel.app']
-
-CSRF_TRUSTED_ORIGINS = ['.vercel.app','estore-deployment.vercel.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -42,9 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'ckeditor',
+    'rest_framework',
     'store',
     'customers',
     'cart',
+    'dashboard',
+    'storereport',
+    'analysis',
 ]
 
 MIDDLEWARE = [
@@ -141,7 +144,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+#CKEditor
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor'
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+
 
 #cart
 CART_SESSION_ID = 'cart'
 
+#REST FRAMEWORK
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
+}

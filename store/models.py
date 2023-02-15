@@ -1,4 +1,6 @@
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -26,7 +28,7 @@ class Product(models.Model):
     price = models.FloatField(default=0.0)
     price_origin = models.FloatField(null=True)
     image = models.ImageField(upload_to='store/images', default='store/images/default.png')
-    content = models.TextField(blank=True, null=True)
+    content = RichTextUploadingField(blank=True, null=True)
     public_day = models.DateTimeField(default=timezone.now)
     viewed = models.IntegerField(default=0)
 

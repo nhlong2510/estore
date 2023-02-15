@@ -1,0 +1,31 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Chart</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h3>Histogram</h3>
+        {% if hist %}
+        <img src="data:image/png;base64, {{ hist|safe }}" alt="">
+        {% endif %}
+    </div>
+    <div class="container-fluid">
+        <h3>Boxplot</h3>
+        {% if boxplot %}
+        <img src="data:image/png;base64, {{ boxplot|safe }}" alt="">
+        {% endif %}
+    </div>
+    <div class="container-fluid">
+        <h3>Barchart</h3>
+        {% if barchart %}
+        <img src="data:image/png;base64, {{ barchart|safe }}" alt="">
+        {% endif %}
+    </div>
+</body>
+
+</html>
